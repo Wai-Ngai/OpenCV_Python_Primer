@@ -18,7 +18,7 @@ def get_image_info(image):
 
     # 将图片转换成数组,是一个3维数组
     pixel_data = np.array(image)
-    print("像素大小：", pixel_data)
+    print("像素数组：", pixel_data)
 
 
 # 保存图片
@@ -26,16 +26,16 @@ def save_image(image):
     # 将图片转换为灰度图
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     # 保存图片
-    cv.imwrite("new.png", gray)
+    cv.imwrite("../code_images/new.png", gray)
 
 
 # 读取视频
 def video_read():
     # 读取摄像头视频
-    capture = cv.VideoCapture(0)
+    # capture = cv.VideoCapture(0)
 
     # 读取本地文件视频
-    # capture = cv.VideoCapture("../code_images/slow.mp4")
+    capture = cv.VideoCapture("../code_images/cxk_playBB.gif")
     print("类型", type(capture))
 
     while True:
@@ -65,10 +65,10 @@ if __name__ == '__main__':
     # 显示图片
     cv.imshow("lena", img)
 
-    get_image_info(img)
+    # get_image_info(img)
     # save_image(img)
 
-    # video_read()
+    video_read()
 
     # 等待键盘输入
     cv.waitKey(0)
