@@ -1,7 +1,12 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
+'''
+颜色空间
 
+HSV色彩空间说明：
+     H：0-180  S: 0-255 V： 0-255
+'''
 
 # 颜色空间转换，从bgr到gray，hsv，yuv，ycrcb
 def color_space_demo(image):
@@ -54,6 +59,7 @@ def channels_split_merge(image):
     cv.imshow("red", r)
 
     changed_image = image.copy()
+
     # 将r通道颜色全部置为0
     changed_image[:, :, 2] = 0
     cv.imshow("changed_image", changed_image)
@@ -74,9 +80,9 @@ if __name__ == '__main__':
     cv.imshow("lena", img)
     # color_space_demo(img)
 
-    extract_object_demo()
+    # extract_object_demo()
 
-    # channels_split_merge(img)
+    channels_split_merge(img)
 
     # 等待键盘输入
     cv.waitKey(0)

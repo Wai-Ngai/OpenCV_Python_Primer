@@ -7,7 +7,11 @@ from matplotlib import pyplot as plt
 
 通俗讲就是以图找图，通过图中的一部分来找它在图中的位置
 
-
+    cv.matchTemplate(image, templ, method, result=None, mask=None)
+    
+    cv.TM_SQDIFF_NORMED
+    cv.TM_CCORR_NORMED
+    cv.TM_CCOEFF_NORMED
 '''
 
 

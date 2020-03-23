@@ -7,58 +7,63 @@ ROI：Region Of Interest
 
 
 泛洪填充
-FLOODFILL_FIXED_RANGE 改变图像泛洪填充
-FLOODFILL_MASK_ONLY   不改变图像，只填充Mask层本身
+    cv.floodFill(image, mask, seedPoint, newVal, loDiff=None, upDiff=None, flags=None)
+        - image：操作的图像
+        - mask：掩模
+        - seedPoint：起始像素值
+        - newVal：填充的颜色
+        - loDiff：填充颜色的低值
+        - upDiff：填充颜色的高值
+        - flags：填充的方法
+            FLOODFILL_FIXED_RANGE 改变图像泛洪填充
+            FLOODFILL_MASK_ONLY   不改变图像，只填充Mask层本身
 '''
+
 
 # ROI操作
 def rio_test(image):
+    # iamge是一个numpy.ndarray格式，所以ROI可以采用数组切片的方式获取
     # 高度[200:400]  宽度[200:360]
-    face=image[200:400,200:360]
+    face = image[200:400, 200:360]
 
     # 将脸部转换成灰度图，这个时候只有一个通道
-    gray=cv.cvtColor(face,cv.COLOR_BGR2GRAY)
-    cv.imshow("face",gray)
+    gray = cv.cvtColor(face, cv.COLOR_BGR2GRAY)
+    cv.imshow("face", gray)
 
     # 将脸部转换成BGR，这个时候脸部图像才有3个通道，才可以进行下面的图像合并
     # 注意：这里脸部已经是灰度图了，还原回BGR也无法显示颜色，只是为了增加通道数
-    back_face=cv.cvtColor(gray,cv.COLOR_GRAY2BGR)
-    cv.imshow("back_face",back_face)
+    back_face = cv.cvtColor(gray, cv.COLOR_GRAY2BGR)
+    cv.imshow("back_face", back_face)
 
-    image[200:400,200:360]=back_face
-    cv.imshow("lena_face",image)
-
-
+    image[200:400, 200:360] = back_face
+    cv.imshow("lena_face", image)
 
 
 # 彩色图像填充
 def fill_color(image):
-    copyImag=image.copy()
-    h,w=image.shape[:2]
-    mask= np.zeros([h+2,w+2],np.uint8)
-
+    copyImag = image.copy()
+    h, w = image.shape[:2]
+    mask = np.zeros([h + 2, w + 2], np.uint8)
 
     # 参数：原图，mask图，起始点，起始点值减去该值作为最低值，起始点值加上该值作为最高值，彩色图模式
-    cv.floodFill(copyImag,mask,(30,30),(0,255,255),(100,100,100),(50,50,50),cv.FLOODFILL_FIXED_RANGE)
-    cv.imshow("flood_fill",copyImag)
+    cv.floodFill(copyImag, mask, (30, 30), (0, 255, 255), (100, 100, 100), (50, 50, 50), cv.FLOODFILL_FIXED_RANGE)
+    cv.imshow("flood_fill", copyImag)
 
 
 # 二值图像填充
 def fill_binary():
     # 创建一张400*400的彩色图像
-    image=np.zeros([400,400,3],np.uint8)
-    image[100:300,100:300,:]=255
-    cv.imshow("fill_binary",image)
+    image = np.zeros([400, 400, 3], np.uint8)
+    image[100:300, 100:300, :] = 255
+    cv.imshow("fill_binary", image)
 
     # 创建一个单通道的mask，注意mask一定要+2，且mask像素全部为1
-    mask=np.zeros([402,402,1],np.uint8)
+    mask = np.zeros([402, 402, 1], np.uint8)
     # 填充的区域像素值为0
-    mask[101:301,101:301]=0
+    mask[101:301, 101:301] = 0
 
-    cv.floodFill(image,mask,(200,200),(0,0,255),cv.FLOODFILL_MASK_ONLY)
-    cv.imshow("filled_binary",image)
-
-
+    cv.floodFill(image, mask, (200, 200), (0, 0, 255), cv.FLOODFILL_MASK_ONLY)
+    cv.imshow("filled_binary", image)
 
 
 if __name__ == '__main__':

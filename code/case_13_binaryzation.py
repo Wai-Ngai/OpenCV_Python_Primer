@@ -5,9 +5,26 @@ from matplotlib import pyplot as plt
 '''
 二值图像（Binary Image）:就是将灰度图转化成黑白图[0 1]，在一个阈值之前为黑1，之后为白0
 
-基于图像直方图来实现的
+    基于图像直方图来实现的
+    
+    全局阈值和局部阈值
+    
+    ret, dst = cv2.threshold(src, thresh, maxval, type)
+        - dst： 输出图
+        
+        - src： 输入图，只能输入单通道图像，通常来说为灰度图
+        - thresh： 阈值
+        - maxval： 当像素值超过了阈值（或者小于阈值，根据type来决定），所赋予的值
+        - type：二值化操作的类型，包含以下5种类型
+        
+            cv2.THRESH_BINARY 超过阈值部分取maxval（最大值），否则取0      
+            cv2.THRESH_BINARY_INV THRESH_BINARY的反转
+            cv2.THRESH_TRUNC 大于阈值部分设为阈值，否则不变
+            cv2.THRESH_TOZERO 大于阈值部分不改变，否则设为0
+            cv2.THRESH_TOZERO_INV THRESH_TOZERO的反转
 
-全局阈值和局部阈值
+
+
 
 OpenCV中图像二值化的方法：
 OTSU
@@ -148,7 +165,7 @@ if __name__ == '__main__':
     # 全局阈值
     # threshold_demo(img)
 
-    # threshold_simple(img)
+    threshold_simple(img)
 
     # 自适应阈值（局部阈值）
     # threshold_adaptive(img)
@@ -157,7 +174,7 @@ if __name__ == '__main__':
     # threshold_custom(img)
 
     # 超大图像的二值化
-    big_image_demo()
+    # big_image_demo()
 
     # 等待键盘输入
     cv.waitKey(0)

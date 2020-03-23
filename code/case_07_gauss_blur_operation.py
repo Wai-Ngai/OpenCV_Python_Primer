@@ -3,18 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 '''
-模糊操作：
-均值模糊
-中值模糊
-自定义模糊
-
-基本原理：
-1.基于离散卷积
-2.定义好每个卷积核
-3.不同卷积核得到不同卷积效果
-4.模糊是卷积的一种表象
-
-
+高斯模糊
 
 '''
 
