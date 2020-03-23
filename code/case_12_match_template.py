@@ -9,9 +9,13 @@ from matplotlib import pyplot as plt
 
     cv.matchTemplate(image, templ, method, result=None, mask=None)
     
-    cv.TM_SQDIFF_NORMED
-    cv.TM_CCORR_NORMED
-    cv.TM_CCOEFF_NORMED
+        - method: 尽量选用带归一化的方法
+            TM_SQDIFF：计算平方不同，计算出来的值越小，越相关
+            TM_CCORR：计算相关性，计算出来的值越大，越相关
+            TM_CCOEFF：计算相关系数，计算出来的值越大，越相关
+            TM_SQDIFF_NORMED：计算归一化平方不同，计算出来的值越接近0，越相关
+            TM_CCORR_NORMED：计算归一化相关性，计算出来的值越接近1，越相关
+            TM_CCOEFF_NORMED：计算归一化相关系数，计算出来的值越接近1，越相关
 '''
 
 

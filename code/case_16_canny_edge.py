@@ -23,7 +23,8 @@ def canny_edge_demo(image):
 
     # 同时采用x，y方向的梯度提取边缘
     edge_output=cv.Canny(grad_x,grad_y,50,150)
-    # 也可以采用原图进行提取边缘
+
+    # 也可以直接采用原图进行提取边缘
     # edge_output=cv.Canny(gray,50,150)
 
     cv.imshow("gray",gray)
