@@ -2,9 +2,7 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 
-
-
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -21,3 +19,8 @@ if __name__ == '__main__':
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+
+if __name__ == '__main__':
+    main()
