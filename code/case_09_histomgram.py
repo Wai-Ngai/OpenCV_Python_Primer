@@ -5,7 +5,9 @@ from matplotlib import pyplot as plt
 '''
 图像直方图：统计每个像素点的个数
 
-    一维
+    一维：只考虑了图像的一个特征：灰度值
+        使用 OpenCV 统计直方图 
+
         cv2.calcHist(images,channels,mask,histSize,ranges)
 
             - images： 原图像图像格式为 uint8 或 ﬂoat32。当传入函数时应用中括号 [] 括来例如[img]
@@ -16,9 +18,21 @@ from matplotlib import pyplot as plt
             - histSize：BIN 的数目。也应用中括号括来
             - ranges：像素值范围常为 [0256]
     
+        使用 Numpy 统计直方图
+        
+        hist,bins = np.histogram(img.ravel(),256,[0,256])
+        hist = np.bincount(img.ravel(), minlength=256) 它的运行速度是np.histgram 的十倍。所以对于一维直方图，我们最好使用这个函数。 
+        
+        OpenCV 的函数要比 np.histgram() 快 40 倍。所以坚持使用OpenCV 函数。
     
+    二维：考虑两个图像特征。对于彩色图像的直方图通常情况下我们需要考虑每个的颜色（ Hue）和饱和度（ Saturation）。根据这两个特征绘制 2D 直方图
+
+绘制直方图
+    有两种方法来绘制直方图：
+    1. Short Way（简单方法）：使用 Matplotlib 中的绘图函数。
+        plt.hist(img.ravel(),256,[0,256]);
     
-    二维
+    2. Long Way（复杂方法）：使用 OpenCV 绘图函数
 
 '''
 
@@ -42,7 +56,7 @@ def image_hist(image):
     plt.show()
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/Dilraba.png")
 
@@ -58,3 +72,7 @@ if __name__ == '__main__':
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

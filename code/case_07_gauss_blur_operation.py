@@ -26,7 +26,7 @@ def gaussian_noise(image):
     for row in range(h):
         for col in range(w):
             # normal(loc=0.0, scale=1.0, size=None),均值，标准差，大小
-            s = np.random.normal(0, 20, 4)
+            s = np.random.normal(0, 20, 3)
 
             b = image[row, col, 0]
             g = image[row, col, 1]
@@ -49,7 +49,7 @@ def gaussian_blur_operation(image):
     cv.imshow("gaussian_blur", dst)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -59,14 +59,23 @@ if __name__ == '__main__':
     # 显示图片
     cv.imshow("lena", img)
 
-    t1=cv.getTickCount()
+    t1 = cv.getTickCount()
+
     # 为原图加上高斯噪声
     new_image = gaussian_noise(img)
+
     t2 = cv.getTickCount()
-    time=(t2-t1)/cv.getTickFrequency()
-    print("为图像添加高斯噪声用时： %s ms" %(time*1000))
+    time = (t2 - t1) / cv.getTickFrequency()
+
+    print("为图像添加高斯噪声用时： %s ms" % (time * 1000))
+
     # 高斯模糊
     gaussian_blur_operation(new_image)
+
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

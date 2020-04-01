@@ -1,12 +1,21 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
+
 '''
 颜色空间
 
+在 OpenCV 中有超过 150 中进行颜色空间转换的方法。但是你以后就会发现我们经常用到的也就两种： BGR-Gray 和 BGR-HSV。
+
+    cv2.cvtColor(input_image， flag)
+        flag：就是转换类型
+
 HSV色彩空间说明：
-     H：0-180  S: 0-255 V： 0-255
+     H（色彩/色度）：0-180  
+     S（饱和度）: 0-255 
+     V（亮度）： 0-255
 '''
+
 
 # 颜色空间转换，从bgr到gray，hsv，yuv，ycrcb
 def color_space_demo(image):
@@ -36,15 +45,19 @@ def extract_object_demo():
 
         hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
 
-        # hsv中h，s，v的最小值
+        # 设定要提取物体的阈值
         lower_hsv = np.array([0, 43, 46])
-        # hsv中h，s，v的最大值
-        upper_hsv = np.array([50, 255, 255])
+        upper_hsv = np.array([34, 255, 255])
+
         # 提取指定范围颜色，保留指定范围颜色, 其余置为黑(0)
         mask = cv.inRange(hsv, lower_hsv, upper_hsv)
 
+        # 对原图像和掩摸进行位运算
+        res=cv.bitwise_and(frame,frame,mask=mask)
+
         cv.imshow("video", frame)
         cv.imshow("mask", mask)
+        cv.imshow("res", res)
 
         c = cv.waitKey(40)
         if c == 27:
@@ -53,6 +66,7 @@ def extract_object_demo():
 
 # 通道分离、合并，修改某一通道
 def channels_split_merge(image):
+    # cv2.split() 是一个比较耗时的操作。只有真正需要时才用它，能用Numpy 索引就尽量用。
     b, g, r = cv.split(image)
     cv.imshow("blue", b)
     cv.imshow("green", g)
@@ -69,7 +83,7 @@ def channels_split_merge(image):
     cv.imshow("merge_image", merge_image)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -77,13 +91,17 @@ if __name__ == '__main__':
     cv.namedWindow("lena", cv.WINDOW_AUTOSIZE)
 
     # 显示图片
-    cv.imshow("lena", img)
+    # cv.imshow("lena", img)
     # color_space_demo(img)
 
-    # extract_object_demo()
+    extract_object_demo()
 
-    channels_split_merge(img)
+    # channels_split_merge(img)
 
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

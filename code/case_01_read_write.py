@@ -49,7 +49,7 @@ from matplotlib import pyplot as plt
 def get_image_info(image):
     print("图片类型：", type(image))  # <class 'numpy.ndarray'>
     print("图片形状（长,宽,通道数）：", image.shape)  # <class 'tuple'>
-    print("图片大小（长×宽×通道数）：", image.size)
+    print("图片像素数目（长×宽×通道数）：", image.size)
     print("图片像素数据类型：", image.dtype)  # uint8
 
     # 将图片转换成数组,是一个3维数组
@@ -162,12 +162,12 @@ def main():
     # cv.namedWindow("lena", cv.WINDOW_AUTOSIZE)
 
     # 显示图片
-    cv.imshow("lena", img)
+    # cv.imshow("lena", img)
 
-    # get_image_info(img)
+    get_image_info(img)
     # save_image(img)
 
-    # image_read()
+    image_read()
 
     # video_read()
 

@@ -5,6 +5,9 @@ from matplotlib import pyplot as plt
 '''
 图像梯度（由x,y方向上的偏导数和偏移构成）
 
+高通滤波器： Sobel， Scharr 其实就是求一阶或二阶导数。 Scharr 是对 Sobel（使用小的卷积核求解求解梯度角度时）的优化。
+            Laplacian 是求二阶导数
+
     一阶导数（sobel算子）
     
          cv2.Sobel(src, ddepth, dx, dy, ksize)
@@ -26,7 +29,7 @@ def sobel_demo(image):
     grad_x = cv.Sobel(image, cv.CV_32F, 1, 0)
     grad_y = cv.Sobel(image, cv.CV_32F, 0, 1)
 
-    # 由于算完的图像有正有负，白到黑是正数，黑到白就是负数了，所有的负数会被截断成0，所以对其取绝对值
+    # 由于算完的图像有正有负，黑到白是正数，白到黑就是负数了，所有的负数会被截断成0，所以对其取绝对值
     # grad_x = cv.convertScaleAbs(grad_x)
     # grad_y = cv.convertScaleAbs(grad_y)
 
@@ -37,8 +40,8 @@ def sobel_demo(image):
     # 不建议直接计算
     # grad_xy = cv.Sobel(image, cv.CV_32F, 1, 1)
 
-    cv.imshow("gradient_x", grad_x)#颜色变化在水平分层
-    cv.imshow("gradient_y", grad_y)#颜色变化在垂直分层
+    cv.imshow("gradient_x", grad_x)  # 颜色变化在水平分层
+    cv.imshow("gradient_y", grad_y)  # 颜色变化在垂直分层
     cv.imshow("gradient", gradxy)
 
 
@@ -76,7 +79,7 @@ def custom_laplace(image):
     cv.imshow("custom_laplace", lpls)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/pie.png")
 
@@ -86,19 +89,18 @@ if __name__ == '__main__':
     # 显示图片
     cv.imshow("imput image", img)
 
-
     sobel_demo(img)
-
 
     # scharr_demo(img)
 
-
     # laplace_demo(img)
 
-
     # custom_laplace(img)
-
 
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

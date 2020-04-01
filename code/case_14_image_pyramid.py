@@ -6,8 +6,8 @@ from matplotlib import pyplot as plt
 图像金字塔
 
 图像金字塔原理：
-reduce=高斯模糊+降采样
-expand=扩大+卷积
+    reduce=高斯模糊+降采样
+    expand=扩大+卷积
 
 
 PyrDown降采样
@@ -45,7 +45,7 @@ def laplace_demo(image):
     for i in range(level - 1, -1, -1):
         if i - 1 < 0:
             expand = cv.pyrUp(pyramid_images[i], dstsize=image.shape[:2])
-            lpls = cv.subtract(image, expand) # 最后一层用原图减去
+            lpls = cv.subtract(image, expand)  # 最后一层用原图减去
             cv.imshow("laplace_down" + str(i), lpls)
         else:
             expand = cv.pyrUp(pyramid_images[i], dstsize=pyramid_images[i - 1].shape[:2])
@@ -53,7 +53,7 @@ def laplace_demo(image):
             cv.imshow("laplace_down" + str(i), lpls)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -63,9 +63,13 @@ if __name__ == '__main__':
     # 显示图片
     cv.imshow("lena", img)
 
-    # pyramid_demo(img)
+    pyramid_demo(img)
     laplace_demo(img)
 
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

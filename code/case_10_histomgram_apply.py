@@ -6,7 +6,11 @@ from matplotlib import pyplot as plt
 图像直方图的应用
 
 1.直方图均衡化：用于增强图像对比度，即黑的更黑，白的更白
-
+    全局直方图均衡化
+        dst = cv.equalizeHist(gray) 
+    局部直方图均衡化
+        clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        
 2.直方图比较
 
 '''
@@ -60,21 +64,20 @@ def create_rgb_demo(image):
 # 相关性越大越相似
 # 卡方越大越相似
 
-def hist_compare(image1,image2):
-    hist1=create_rgb_demo(image1)
-    hist2=create_rgb_demo(image2)
+def hist_compare(image1, image2):
+    hist1 = create_rgb_demo(image1)
+    hist2 = create_rgb_demo(image2)
 
     # 注意：直方图比较需要两张图大小一直，否则需要做归一化
-    match1=cv.compareHist(hist1,hist2,cv.HISTCMP_BHATTACHARYYA)
-    match2=cv.compareHist(hist1,hist2,cv.HISTCMP_CORREL)
-    match3=cv.compareHist(hist1,hist2,cv.HISTCMP_CHISQR)
+    match1 = cv.compareHist(hist1, hist2, cv.HISTCMP_BHATTACHARYYA)
+    match2 = cv.compareHist(hist1, hist2, cv.HISTCMP_CORREL)
+    match3 = cv.compareHist(hist1, hist2, cv.HISTCMP_CHISQR)
 
-    print("巴式距离：%s, 相关性：%s, 卡方：%s"%(match1, match2, match3))
-    #巴式距离：0.5424051452634745, 相关性：0.5834816306624869, 卡方：8334059.811340665
+    print("巴式距离：%s, 相关性：%s, 卡方：%s" % (match1, match2, match3))
+    # 巴式距离：0.5424051452634745, 相关性：0.5834816306624869, 卡方：8334059.811340665
 
 
-
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/rice.png")
 
@@ -89,7 +92,11 @@ if __name__ == '__main__':
 
     image1 = cv.imread("../code_images/rice.png")
     image2 = cv.imread("../code_images/noise_rice.png")
-    hist_compare(image1,image2)
+    hist_compare(image1, image2)
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

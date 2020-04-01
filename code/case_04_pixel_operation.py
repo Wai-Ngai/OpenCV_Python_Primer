@@ -13,13 +13,13 @@ from matplotlib import pyplot as plt
     相乘：multiply() 
     相除：divide()   
     
-    原理就是：通过获取两张（一次只能是两张）个图片的同一个位置的色素值来实现运算。
+    原理就是：通过获取两张（一次只能是两张）图片的同一个位置的色素值来实现运算。
     运算的要求：两张图片的shape要一样。
     
     
-    OpenCV的add方法，如果像素值超过了255，那就等于255
-    如果直接是两张图片相加，那就是ndarray的运算，如果像素值超过了255，那就等于 %256，相当于取余
-    image1+image2
+    OpenCV的add方法是一种饱和操作，如果像素值超过了255，那就等于255
+    Numpy 的加法是一种模操作，如果直接是两张图片相加image1+image2，那就是ndarray的运算，如果像素值超过了255，那就等于 %256，相当于取余
+    
 
 
 逻辑运算:
@@ -72,9 +72,14 @@ def mean_std_operation(image1, image2):
     print("mean: %s, std_dev:  %s" % (mean, dev))
 
 
+# 图像融合
+def image_fusion_demo(image1, image2):
+    dst = cv.addWeighted(image1, 0.5, image2, 0.5, 0)
+    cv.imshow("image fusion", dst)
+
+
 # 逻辑运算：AND，OR，NOT，XOR
 def logic_operation(image1, image2):
-    cv.imshow("im", image2)
     dst_and = cv.bitwise_and(image1, image2)
     cv.imshow("AND", dst_and)
 
@@ -95,7 +100,7 @@ def logic_operation(image1, image2):
 
     for i in range(len(images)):
         plt.subplot(3, 2, i + 1)
-        plt.imshow(images[i], "gray")
+        plt.imshow(cv.cvtColor(images[i], cv.COLOR_BGR2RGB))
 
         plt.title(titles[i])
         plt.xticks([])
@@ -104,14 +109,7 @@ def logic_operation(image1, image2):
     plt.show()
 
 
-#
-
-def image_fusion_demo(image1, image2):
-    dst = cv.addWeighted(image1, 0.5, image2, 0.5, 0)
-    cv.imshow("image fusion", dst)
-
-
-if __name__ == '__main__':
+def main():
     # 读取图片
     img1 = cv.imread("../code_images/01.jpg")
     img2 = cv.imread("../code_images/02.jpg")
@@ -134,12 +132,16 @@ if __name__ == '__main__':
 
     # mean_std_operation(img1,img2)
 
+    # 图像融合
+    # image_fusion_demo(img1, img2)
+
     # 图片逻辑运算
     # logic_operation(img1, img2)
-
-    # 图像融合
-    image_fusion_demo(img1, img2)
 
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

@@ -6,11 +6,11 @@ from matplotlib import pyplot as plt
 Canny边缘
 
 canny运算步骤：5步
-1. 高斯模糊 - GaussianBlur
-2. 灰度转换 - cvtColor
-3. 计算梯度 - Sobel/Scharr
-4. 非极大值抑制
-5. 高低阈值输出二值图像
+    1. 高斯模糊 - GaussianBlur   由于边缘检测很容易受到噪声影响，所以第一步是使用 5x5 的高斯滤波器去除噪声
+    2. 灰度转换 - cvtColor
+    3. 计算梯度 - Sobel/Scharr
+    4. 非极大值抑制
+    5. 高低阈值输出二值图像
 '''
 
 
@@ -36,7 +36,7 @@ def canny_edge_demo(image):
     cv.imshow("color_edge", dst)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -51,3 +51,7 @@ if __name__ == '__main__':
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

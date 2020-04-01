@@ -5,13 +5,13 @@ from matplotlib import pyplot as plt
 '''
 开闭操作
 
-开操作:先腐蚀，再膨胀。它被用来去除噪声，消除图像中小的干扰区域。还可以尽量保留了其他的元素没有变化
-闭操作:先膨胀，再腐蚀。它经常被用来填充前景物体中的小洞，或者前景物体上的小黑点。还可以尽量保留了其他的元素没有变化
+    开操作:先腐蚀，再膨胀。它被用来去除噪声，消除图像中小的干扰区域。还可以尽量保留了其他的元素没有变化
+    闭操作:先膨胀，再腐蚀。它经常被用来填充前景物体中的小洞，或者前景物体上的小黑点。还可以尽量保留了其他的元素没有变化
 
 其他形态学操作：
 
-顶帽：原图像-开操作  tophat
-黑帽：闭操作-原图像  blackhat
+    顶帽：原图像-开操作  tophat
+    黑帽：闭操作-原图像  blackhat
 
 形态学梯度：其实就是一幅图像膨胀与腐蚀的差别。 结果看上去就像前景物体的轮廓
     
@@ -25,7 +25,7 @@ from matplotlib import pyplot as plt
 def open_demo(image):
     print(image.shape)
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    ret, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY_INV | cv.THRESH_OTSU)
+    ret, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
     cv.imshow("binary", binary)
 
     # 得到结构元素
@@ -90,6 +90,7 @@ def gradient_demo(image):
 
     cv.imshow("gradient_result", dst)
 
+
 # 内梯度和外梯度
 def gradient_demo2(image):
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
@@ -104,7 +105,7 @@ def gradient_demo2(image):
     cv.imshow("external gradient", dst2)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/bin2.jpg")
 
@@ -114,10 +115,26 @@ if __name__ == '__main__':
     # 显示图片
     cv.imshow("input_image", img)
 
+    # 开操作
+    open_demo(img)
+
+    # 闭操作
+    close_demo(img)
+
     top_hat_demo(img)
+
     black_hat_demo(img)
+
+    # 基本梯度
     gradient_demo(img)
+
+    # 内梯度和外梯度
     gradient_demo2(img)
+
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

@@ -14,12 +14,13 @@ def hough_circle_detect(image):
     # 霍夫圆检测对噪声敏感，所以一定要进行噪声消除，也可以用高斯blur
     # 均值迁移，sp，sr为空间域核与像素范围域核半径
     dst = cv.pyrMeanShiftFiltering(image, 10, 100)
+
     gray = cv.cvtColor(dst, cv.COLOR_BGR2GRAY)
 
     circles = cv.HoughCircles(gray, cv.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=0, maxRadius=0)
     # 转换成整数
     circles = np.uint16(np.around(circles))
-    print(circles.shape)
+    print(circles.shape) # (1, 20, 3)
 
     for i in circles[0, :]:
         # 画出圆
@@ -30,7 +31,7 @@ def hough_circle_detect(image):
     cv.imshow("hough_circle_detect", image)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/circle1.jpg")
 
@@ -45,3 +46,7 @@ if __name__ == '__main__':
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

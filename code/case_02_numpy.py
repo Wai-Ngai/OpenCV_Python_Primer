@@ -48,8 +48,22 @@ def inverse_image(image):
     dst = cv.bitwise_not(image)
     cv.imshow("inverse_image", dst)
 
+# 使用numpy操作图像的像素点
+def numpy_test(image):
+    px=image[100,100]
+    print(px)
+    blue=image[100,100,0]
+    print(blue)
 
-if __name__ == '__main__':
+    image[100,100]=[255,255,255]
+    print(image[100,100])
+
+    print(image.item(10,10,2))
+    image.itemset((10,10,2),100)
+    print(image.item(10,10,2))
+
+
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -60,19 +74,25 @@ if __name__ == '__main__':
     cv.imshow("lena", img)
 
     # 用numpy创建一张图片
-    # creat_image()
+    creat_image()
 
     # 获取当前电脑时钟
-    t1=cv.getTickCount()
+    t1 = cv.getTickCount()
 
-    # access_pixels(img)
+    access_pixels(img)
     inverse_image(img)
 
     t2 = cv.getTickCount()
-    time=(t2-t1)/cv.getTickFrequency()
-    print("time: %s ms" %(time*1000))
+    # cv2.getTickFrequency 返回时钟频率
+    time = (t2 - t1) / cv.getTickFrequency()
+    print("time: %s ms" % (time * 1000))
 
+    numpy_test(img)
 
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

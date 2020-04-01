@@ -10,7 +10,8 @@ from matplotlib import pyplot as plt
     全局阈值和局部阈值
     
     ret, dst = cv2.threshold(src, thresh, maxval, type)
-        - dst： 输出图
+        - ret： 阈值
+        - dst： 阈值化之后的图
         
         - src： 输入图，只能输入单通道图像，通常来说为灰度图
         - thresh： 阈值
@@ -23,14 +24,25 @@ from matplotlib import pyplot as plt
             cv2.THRESH_TOZERO 大于阈值部分不改变，否则设为0
             cv2.THRESH_TOZERO_INV THRESH_TOZERO的反转
 
-
+    dst = cv2.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None)
+        - dst： 阈值化之后的图
+    
+        - src： 输入图，只能输入单通道图像，通常来说为灰度图
+        - maxval： 当像素值超过了阈值（或者小于阈值，根据type来决定），所赋予的值
+        - adaptiveMethod：指定计算阈值的方法
+        
+            – cv2.ADPTIVE_THRESH_MEAN_C：阈值取自相邻区域的平均值
+            – cv2.ADPTIVE_THRESH_GAUSSIAN_C：阈值取值相邻区域的加权和，权重为一个高斯窗口。
+        
+        - Block Size : 邻域大小（用来计算阈值的区域大小）(必须是奇数)。
+        - C : 这就是是一个常数，阈值就等于的平均值或者加权平均值减去这个常数。局部二值化中有这样一个容差的，可以消除噪声
 
 
 OpenCV中图像二值化的方法：
-OTSU
-Triangle
-自动与手动
-自适应阈值
+    OTSU
+    Triangle
+    自动与手动
+    自适应阈值
 
 '''
 
@@ -39,11 +51,10 @@ Triangle
 def threshold_demo(image):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
-    # 指定阈值
-    # 不能有自动寻找阈值的选项。此时ret = 127,大于127的变成白色
+    # 指定阈值,不能有自动寻找阈值的选项。此时ret = 127,大于127的变成白色
     # ret,binary=cv.threshold(gray,127,255,cv.THRESH_BINARY)
 
-    # 不指定阈值
+    # 不指定阈值,这时要把阈值设为 0。然后算法会找到最优阈值，这个最优阈值就是返回值 ret。
     ret, binary = cv.threshold(gray, 0, 255, cv.THRESH_BINARY | cv.THRESH_OTSU)
 
     print("threshold_value:", ret)
@@ -53,10 +64,10 @@ def threshold_demo(image):
 def threshold_simple(image):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
-    ret, thresh1 = cv.threshold(gray, 127, 255, cv.THRESH_BINARY)        # 最常用的一个方法，其他都不常用
-    ret, thresh2 = cv.threshold(gray, 127, 255, cv.THRESH_BINARY_INV)    # 小于127的变成白色，与上面一个方法相反
-    ret, thresh3 = cv.threshold(gray, 127, 255, cv.THRESH_TRUNC)         # 截断，大于127的就等于127，小于127的就变成黑色
-    ret, thresh4 = cv.threshold(gray, 127, 255, cv.THRESH_TOZERO)        # 小于127的全部变成0
+    ret, thresh1 = cv.threshold(gray, 127, 255, cv.THRESH_BINARY)  # 最常用的一个方法，其他都不常用
+    ret, thresh2 = cv.threshold(gray, 127, 255, cv.THRESH_BINARY_INV)  # 小于127的变成白色，与上面一个方法相反
+    ret, thresh3 = cv.threshold(gray, 127, 255, cv.THRESH_TRUNC)  # 截断，大于127的就等于127，小于127的就变成黑色
+    ret, thresh4 = cv.threshold(gray, 127, 255, cv.THRESH_TOZERO)  # 小于127的全部变成0
     ret, thresh5 = cv.threshold(gray, 127, 255, cv.THRESH_TOZERO_INV)
 
     titles = ['Original Image', 'BINARY', 'BINARY_INV', 'TRUNC', 'TOZERO', 'TOZERO_INV']
@@ -80,7 +91,7 @@ def threshold_adaptive(image):
 
     ret, th1 = cv.threshold(binary, 175, 255, cv.THRESH_BINARY)
 
-    # 11为Block size(必须是奇数), 2 为C值,局部二值化中有这样一个容差的，可以消除噪声
+    # 11为Block size, 2 为C值
     # 局部二值化并没有一个全局的阈值，所以返回值只有一个
     th2 = cv.adaptiveThreshold(binary, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 11, 2)
     th3 = cv.adaptiveThreshold(binary, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
@@ -152,7 +163,7 @@ def big_image_demo():
     cv.imwrite("../code_images/big_image_binary.jpg", gray)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/lena.jpg")
 
@@ -163,12 +174,12 @@ if __name__ == '__main__':
     cv.imshow("lena", img)
 
     # 全局阈值
-    # threshold_demo(img)
+    threshold_demo(img)
 
     threshold_simple(img)
 
     # 自适应阈值（局部阈值）
-    # threshold_adaptive(img)
+    threshold_adaptive(img)
 
     # 自定义阈值进行分割
     # threshold_custom(img)
@@ -179,3 +190,7 @@ if __name__ == '__main__':
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

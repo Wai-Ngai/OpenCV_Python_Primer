@@ -13,7 +13,7 @@ def face_detection(image):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     face_detector = cv.CascadeClassifier("../code_images/haarcascade_frontalface_alt_tree.xml")
 
-    faces = face_detector.detectMultiScale(gray, 1.02, 5) # 1.02, 5 需要进行调整
+    faces = face_detector.detectMultiScale(gray, 1.02, 5)  # 1.02, 5 需要进行调整
 
     for x, y, w, h in faces:
         # 绘制在原图上面
@@ -24,19 +24,20 @@ def face_detection(image):
 
 def video_face_detection():
     # 视频检测，检测摄像头里面的人脸
-    capture=cv.VideoCapture(0)
+    capture = cv.VideoCapture(0)
     # cv.namedWindow("video_face_detection", cv.WINDOW_AUTOSIZE)
     while True:
-        ret,frame=capture.read()
-        frame=cv.flip(frame,1)
+        ret, frame = capture.read()
+        frame = cv.flip(frame, 1)
 
         face_detection(frame)
 
-        c=cv.waitKey(0)
-        if c==27:
+        c = cv.waitKey(0)
+        if c == 27:
             break
 
-if __name__ == '__main__':
+
+def main():
     # 读取图片
     img = cv.imread("../code_images/face3.jpg")
 
@@ -49,8 +50,10 @@ if __name__ == '__main__':
     # face_detection(img)
     video_face_detection()
 
-
-
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()

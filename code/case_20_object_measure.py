@@ -5,11 +5,15 @@ from matplotlib import pyplot as plt
 '''
 对象测量
 
-弧长与面积：发现轮廓，计算每个轮廓的弧长与面积，像素单位
-
-多边形拟合
-
-几何矩计算
+    弧长与面积：发现轮廓，计算每个轮廓的弧长与面积，像素单位
+    
+        轮廓面积    cv2.contourArea()
+        轮廓周长    cv2.arcLength() 
+    
+    多边形拟合
+    
+    几何矩计算：图像的矩可以帮助我们计算图像的质心，面积等
+        cv2.moments() 会将计算得到的矩以一个字典的形式返回
 
 '''
 
@@ -52,9 +56,9 @@ def measure_object(image):
         # 计算对象重心
         cx = mm['m10'] / mm['m00']
         cy = mm['m01'] / mm['m00']
+
         # 用实心圆画出重心
         cv.circle(image, (np.int(cx), np.int(cy)), 2, (0, 255, 255), -1)
-
         cv.circle(dst, (np.int(cx), np.int(cy)), 2, (0, 255, 255), -1)
 
         # 多边形拟合，识别出不同形状的图形，三角形，圆形，矩形
@@ -72,7 +76,7 @@ def measure_object(image):
     cv.imshow("measure_object_2", dst)
 
 
-if __name__ == '__main__':
+def main():
     # 读取图片
     img = cv.imread("../code_images/blob.jpg")
 
@@ -86,3 +90,7 @@ if __name__ == '__main__':
     # 等待键盘输入
     cv.waitKey(0)
     cv.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()
