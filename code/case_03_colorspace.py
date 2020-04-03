@@ -43,13 +43,14 @@ def extract_object_demo():
         if ret is False:
             break
 
+        # 在HSV颜色空间中要比在BGR空间中更容易表示一个特定颜色
         hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
 
-        # 设定要提取物体的阈值
+        # 设定要提取物体的颜色阈值
         lower_hsv = np.array([0, 43, 46])
         upper_hsv = np.array([34, 255, 255])
 
-        # 提取指定范围颜色，保留指定范围颜色, 其余置为黑(0)
+        # 根据阈值构建掩模，保留指定范围颜色, 其余置为黑(0)
         mask = cv.inRange(hsv, lower_hsv, upper_hsv)
 
         # 对原图像和掩摸进行位运算

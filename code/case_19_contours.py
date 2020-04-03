@@ -13,7 +13,13 @@ from matplotlib import pyplot as plt
 
      contours, hiersrchy = cv.findContours(image, mode, method, contours=None, hierarchy=None, offset=None)
         - image：输入图像
+        
         - mode：轮廓检索模式
+            - cv2.RETR_LIST：提取所有的轮廓，而不去创建任何父子关系
+            - cv2.RETR_TREE：返回所有轮廓，并且创建一个完整的组织结构列表。它甚至会告诉你谁是爷爷，爸爸，儿子，孙子等。
+            - cv2.RETR_CCOMP：返回所有的轮廓并将轮廓分为两级组织结构。
+            - cv2.RETR_EXTERNAL：只会返回最外边的的轮廓，所有的子轮廓都会被忽略掉。
+            
         - method：轮廓近似方法。轮廓是一个形状具有相同灰度值的边界。它会存贮形状边界上所有的 (x， y) 坐标。
             - cv2.CHAIN_APPROX_NONE：所有的边界点都会被存储。
             - cv2.CHAIN_APPROX_SIMPLE：它会将轮廓上的冗余点都去掉，压缩轮廓，从而节省内存开支。

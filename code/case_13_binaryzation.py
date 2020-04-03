@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
     基于图像直方图来实现的
     
-    全局阈值和局部阈值
+    全局阈值
     
     ret, dst = cv2.threshold(src, thresh, maxval, type)
         - ret： 阈值
@@ -23,7 +23,12 @@ from matplotlib import pyplot as plt
             cv2.THRESH_TRUNC 大于阈值部分设为阈值，否则不变
             cv2.THRESH_TOZERO 大于阈值部分不改变，否则设为0
             cv2.THRESH_TOZERO_INV THRESH_TOZERO的反转
-
+        
+        cv2.THRESH_OTSU
+        对一副双峰图像自动根据其直方图计算出一个阈值。（对于非双峰图像，这种方法得到的结果可能会不理想）。
+    
+    局部阈值
+    
     dst = cv2.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None)
         - dst： 阈值化之后的图
     
@@ -174,9 +179,9 @@ def main():
     cv.imshow("lena", img)
 
     # 全局阈值
-    threshold_demo(img)
+    # threshold_demo(img)
 
-    threshold_simple(img)
+    # threshold_simple(img)
 
     # 自适应阈值（局部阈值）
     threshold_adaptive(img)

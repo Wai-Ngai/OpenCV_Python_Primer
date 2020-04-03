@@ -96,8 +96,6 @@ def logic_operation(image1, image2):
     titles = ['linux', 'windows', 'AND', 'OR', 'NOT', 'XOR']
     images = [image1, image2, dst_and, dst_or, dst_not, dst_xor]
 
-    cv.imshow("ss", images[1])
-
     for i in range(len(images)):
         plt.subplot(3, 2, i + 1)
         plt.imshow(cv.cvtColor(images[i], cv.COLOR_BGR2RGB))
@@ -136,7 +134,7 @@ def main():
     # image_fusion_demo(img1, img2)
 
     # 图片逻辑运算
-    # logic_operation(img1, img2)
+    logic_operation(img1, img2)
 
     # 等待键盘输入
     cv.waitKey(0)
