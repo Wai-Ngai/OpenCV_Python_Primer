@@ -5,7 +5,19 @@ from matplotlib import pyplot as plt
 '''
 霍夫圆变换（Hough Circle Transform）
 
-
+    cv.HoughCircles(image, method, dp, minDist, circles=None, param1=None, param2=None, minRadius=None, maxRadius=None)
+        - image： 8位，单通道灰度图像.
+        - method： 变换方式，目前只支持CV_HOUGH_GRADIENT 霍夫梯度
+        - dp：累加器图像的分辨率。这个参数允许创建一个比输入图像分辨率低的累加器。（这样做是因为有理由认为图像中存在的圆会自然降低到与图像宽高相同数量的范畴）。
+            如果dp设置为1，则分辨率是相同的；
+            如果设置为更大的值（比如2），累加器的分辨率受此影响会变小（此情况下为一半）。
+            dp的值不能比1小。
+        - minDist：圆心之间的最小距离，如果检测到的两个圆心之间距离小于该值，则认为它们是同一个圆心
+        - circles=None ： 为输出圆向量，每个向量包括三个浮点型的元素——圆心横坐标，圆心纵坐标和圆半径
+        - param1=None：为边缘检测时使用Canny算子的高阈值
+        - param2=None：为步骤1.5和步骤2.5中所共有的阈值
+        - minRadius=None：最小圆半径。
+        - maxRadius=None：最大圆半径。
 
 '''
 
@@ -18,9 +30,11 @@ def hough_circle_detect(image):
     gray = cv.cvtColor(dst, cv.COLOR_BGR2GRAY)
 
     circles = cv.HoughCircles(gray, cv.HOUGH_GRADIENT, 1, 20, param1=50, param2=30, minRadius=0, maxRadius=0)
+    print(circles.shape) # (1, 20, 3)
     # 转换成整数
     circles = np.uint16(np.around(circles))
     print(circles.shape) # (1, 20, 3)
+    print(circles) # (1, 20, 3)
 
     for i in circles[0, :]:
         # 画出圆
