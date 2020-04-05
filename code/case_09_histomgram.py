@@ -16,7 +16,7 @@ from matplotlib import pyplot as plt
                - 如果是彩色图像的传入的参数可以是 [0] [1] [2] 它们分别对应着 BGR。
             - mask：掩模图像。统整幅图像的直方图就把它为 None。但是如 果你想统图像某一分的直方图的你就制作一个掩模图像并 使用它。
             - histSize：BIN 的数目。也应用中括号括来
-            - ranges：像素值范围常为 [0256]
+            - ranges：像素值范围常为 [0 256]
     
         使用 Numpy 统计直方图
         
